@@ -20,6 +20,8 @@ public abstract class AbstractMovementDetector implements SensorEventListener {
 		float[] values;
 
 		// Add code to populate the 'values' array with the sensor values
+        // todo: get the sensor readings we want and give them to doAlarmLogic!
+		values = new float[3];
 		
 		boolean isAlarm = doAlarmLogic(values);
 		if (isAlarm) {
