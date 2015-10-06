@@ -6,7 +6,7 @@ import android.hardware.SensorEventListener;
 
 public abstract class AbstractMovementDetector implements SensorEventListener {
 	protected AbstractAntiTheftService antiTheftService;
-	
+
 	public void setCallbackService(AbstractAntiTheftService service) {
 		antiTheftService = service;
 	}
@@ -19,9 +19,8 @@ public abstract class AbstractMovementDetector implements SensorEventListener {
 	 public final void onSensorChanged(SensorEvent event) {
 		float[] values;
 
-		// Add code to populate the 'values' array with the sensor values
-        // todo: get the sensor readings we want and give them to doAlarmLogic!
-		values = new float[3];
+		// populate the 'values' array with the sensor values
+		values = event.values;
 		
 		boolean isAlarm = doAlarmLogic(values);
 		if (isAlarm) {

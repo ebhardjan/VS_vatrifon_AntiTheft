@@ -27,15 +27,20 @@ public class MainActivity extends AppCompatActivity{
                         // start service and set notification
                         Intent intent = new Intent(getApplicationContext(), AntiTheftServiceImpl.class);
                         startService(intent);
-                    } else {
-                        // stopping the service is handled in service...
                     }
                     break;
                 case Settings.TIMEOUT_STR:
                     // getInt() doesn't work since text-field is stored as string...
-                    String delayS = prefs.getString(key, ""+Settings.TIMEOUT_DEFAULT);
-                    int delay = Integer.parseInt(delayS);
-                    Log.d("###", "[activity] New timeout value: "+ delay);
+                    String timeoutString = prefs.getString(key, ""+Settings.TIMEOUT_DEFAULT);
+                    int timeout = Integer.parseInt(timeoutString);
+                    Settings.TIMEOUT = timeout;
+                    Log.d("###", "[activity] New timeout value: "+ timeout);
+                    break;
+                case Settings.SENSITIVITY_STR:
+                    String sensitivityString  = prefs.getString(key, ""+Settings.SENSITIVITY_DEFAULT);
+                    int sensitivity = Integer.parseInt(sensitivityString);
+                    Settings.SENSITIVITY = sensitivity;
+                    Log.d("###", "[activity] New sensitivity value: "+ sensitivity);
                     break;
                 default:
                     Log.d("###", "[activity] onSharedPreferenceChanged");
