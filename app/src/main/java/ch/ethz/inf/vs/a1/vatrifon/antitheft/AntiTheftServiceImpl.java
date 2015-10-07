@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -17,8 +19,8 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     private NotificationManager notificationManager;
     private SensorManager sm;
 
-    private int ALWAYS_ON_NOTIFICATION = 1;
-    private int ALARM_NOTIFICATION = 2;
+    private MediaPlayer mp;
+    private boolean inAlarmMode = false;
 
     private class PreferenceChangeListener implements
             SharedPreferences.OnSharedPreferenceChangeListener {
@@ -33,10 +35,13 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
                         // unregister the listeners
                         prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
                         sm.unregisterListener(listener);
-                        notificationManager.cancel(ALWAYS_ON_NOTIFICATION);
+                        notificationManager.cancel(Settings.ALWAYS_ON_NOTIFICATION_ID);
                         stopSelf();
                     }
                     break;
+                case Settings.SENSITIVITY_STR:
+                    String asdf = prefs.getString(key, Settings.SENSITIVITY_STR);
+                    Log.d("###", "[service] new sensitivity: "+asdf);
                 default:
                     Log.d("###", "[service] onSharedPreferenceChanged");
             }
@@ -45,8 +50,6 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("###", "Service Started (start command received)");
-
         // initialize the sensor listener
         sm = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         Sensor sensor = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -54,6 +57,12 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
 
         // initialize the preference listener
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        // just in case in hasn't been set yet because Settings.java doesn't store stuff persistent...
+        String temp = prefs.getString(Settings.TIMEOUT_STR, Settings.TIMEOUT_DEFAULT+"");
+        Settings.TIMEOUT = Integer.parseInt(temp);
+
+        // add the onchange listener
         prefListener = new PreferenceChangeListener();
         prefs.registerOnSharedPreferenceChangeListener(prefListener);
 
@@ -78,7 +87,13 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         // Gets an instance of the NotificationManager service
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
-        notificationManager.notify(ALWAYS_ON_NOTIFICATION, mBuilder.build());
+        notificationManager.notify(Settings.ALWAYS_ON_NOTIFICATION_ID, mBuilder.build());
+
+        // Initialize the media player
+        int sound = R.raw.warning;
+        mp = MediaPlayer.create(getApplicationContext(), sound);
+        mp.setVolume(1.0f, 1.0f);
+        mp.setLooping(false);
 
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
@@ -88,13 +103,19 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     @Override
     public IBinder onBind(Intent intent) {
         // not used since we should use a started service...
-        // todo: this means I can completely remove this method right?
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void startAlarm() {
-        Log.d("##", "start alarm! (needs to be implemented)");
+        // in case we're already displaying the alarm notification we stop
+        if(inAlarmMode)
+            return;
+        else
+            inAlarmMode = true;
+
+        Log.d("###", "startAlarm");
+
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // initialize the notification
@@ -116,9 +137,22 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         // don't let the notification go away
         mBuilder.setOngoing(true);
         mBuilder.setContentIntent(resultPendingIntent);
-        notificationManager.notify(ALARM_NOTIFICATION, mBuilder.build());
-        // todo: get the notification, change the text and what happends when you click on it!
-        // todo: important, don't forget the timeout!
+        notificationManager.notify(Settings.ALARM_NOTIFICATION_ID, mBuilder.build());
 
+        // creates a runnable that waits for the wanted time before playing the sound.
+        // if the alarm gets disabled in the mean time, we don't play
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            public void run() {
+                if (!Settings.stopAlarm) {
+                    if (!mp.isPlaying())
+                        mp.start();
+                }
+                else
+                    Settings.stopAlarm = false;
+
+            }
+        }, Settings.TIMEOUT * 1000);
     }
 }

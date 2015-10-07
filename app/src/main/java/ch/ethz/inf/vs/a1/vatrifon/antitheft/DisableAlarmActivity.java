@@ -1,8 +1,8 @@
 package ch.ethz.inf.vs.a1.vatrifon.antitheft;
 
+import android.app.NotificationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -24,7 +24,13 @@ public class DisableAlarmActivity extends AppCompatActivity {
             }
         });
 
-        // todo: stop alarm from going off
+        // stop the alarm from going off...
+        Settings.stopAlarm = true;
+
+        // remove the notification
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(Settings.ALARM_NOTIFICATION_ID);
+
     }
 
 }

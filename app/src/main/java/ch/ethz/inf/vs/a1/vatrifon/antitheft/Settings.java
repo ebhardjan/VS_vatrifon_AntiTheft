@@ -12,8 +12,14 @@ public class Settings {
 	public static int SENSITIVITY = 0;
 	public static int TIMEOUT = 0;
 
+	// todo: is this the right thing todo?
+	public static boolean stopAlarm = false;
+
 	public static final String ACTIVATE_STR = "activate";
 	public static final String SENSITIVITY_STR = "sensitivity";
 	public static final String TIMEOUT_STR = "timeout";
+
+    public static final int ALWAYS_ON_NOTIFICATION_ID = 1;
+    public static final int ALARM_NOTIFICATION_ID = 2;
 
 }

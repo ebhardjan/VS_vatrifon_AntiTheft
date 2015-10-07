@@ -13,4 +13,12 @@
         android:inputType="number"
         android:singleLine="true"
         android:numeric="decimal"/>
+    <EditTextPreference
+        android:key="sensitivity"
+        android:title="Sensitivity"
+        android:summary="Sensitivity of the movement detection"
+        android:defaultValue="20"
+        android:inputType="number"
+        android:singleLine="true"
+        android:numeric="decimal"/>
 </PreferenceScreen>
