@@ -24,9 +24,6 @@ public abstract class AbstractMovementDetector implements SensorEventListener {
 		
 		boolean isAlarm = doAlarmLogic(values);
 
-		// todo: remove this... now I start the alarm always, just for debugging
-		isAlarm = true;
-
 		if (isAlarm) {
 			((AbstractAntiTheftService)antiTheftService).startAlarm();
 		}
