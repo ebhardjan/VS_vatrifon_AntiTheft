@@ -23,6 +23,11 @@
             android:exported="true" >
         </service>
 
+        <activity
+            android:name=".DisableAlarmActivity"
+            android:label="@string/title_activity_disable_alarm"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>

@@ -17,7 +17,8 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     private NotificationManager notificationManager;
     private SensorManager sm;
 
-    private int NOTIFICATION_ID = 1;
+    private int ALWAYS_ON_NOTIFICATION = 1;
+    private int ALARM_NOTIFICATION = 2;
 
     private class PreferenceChangeListener implements
             SharedPreferences.OnSharedPreferenceChangeListener {
@@ -32,7 +33,7 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
                         // unregister the listeners
                         prefs.unregisterOnSharedPreferenceChangeListener(prefListener);
                         sm.unregisterListener(listener);
-                        notificationManager.cancel(NOTIFICATION_ID);
+                        notificationManager.cancel(ALWAYS_ON_NOTIFICATION);
                         stopSelf();
                     }
                     break;
@@ -77,7 +78,7 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         // Gets an instance of the NotificationManager service
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // Builds the notification and issues it.
-        notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        notificationManager.notify(ALWAYS_ON_NOTIFICATION, mBuilder.build());
 
         // We want this service to continue running until it is explicitly
         // stopped, so return sticky.
@@ -95,6 +96,27 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     public void startAlarm() {
         Log.d("##", "start alarm! (needs to be implemented)");
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // initialize the notification
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(getApplicationContext())
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("Alarm!!!")
+                        .setContentText("Click to disable the alarm...");
+
+        Intent resultIntent = new Intent(getApplicationContext(), DisableAlarmActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        getApplicationContext(),
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        // don't let the notification go away
+        mBuilder.setOngoing(true);
+        mBuilder.setContentIntent(resultPendingIntent);
+        notificationManager.notify(ALARM_NOTIFICATION, mBuilder.build());
         // todo: get the notification, change the text and what happends when you click on it!
         // todo: important, don't forget the timeout!
 
