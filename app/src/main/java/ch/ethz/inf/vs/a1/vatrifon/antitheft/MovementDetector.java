@@ -1,5 +1,7 @@
 package ch.ethz.inf.vs.a1.vatrifon.antitheft;
 
+import android.util.Log;
+
 import java.util.Calendar;
 
 public class MovementDetector extends AbstractMovementDetector {
@@ -11,7 +13,7 @@ public class MovementDetector extends AbstractMovementDetector {
     @Override
     protected boolean doAlarmLogic(float[] values) {
         if(lastVals == null){
-            skipped = 3;
+            skipped = Settings.COOLDOWN_SKIP_SENSOR_READINGS;
             lastVals = values.clone();
             lastStillTimeSec = getTimeSeconds();
             return false;
@@ -22,8 +24,6 @@ public class MovementDetector extends AbstractMovementDetector {
 
         float diff = normDiff(lastVals, values);
         lastVals = values.clone();
-        //Log.d("###", "Movement "+diff);
-        //Log.d("###", "skipped val "+skipped);
 
         int nowSec = getTimeSeconds();
 
@@ -38,9 +38,12 @@ public class MovementDetector extends AbstractMovementDetector {
             if(skipped >= Settings.COOLDOWN_SKIP_SENSOR_READINGS){
                 // NOW assume phone is lying still
                 lastStillTimeSec = nowSec;
+                Log.d("## MovementDetector", "Moving: no");
+                return false;
             }
 
             // either way, do not trigger an alarm in this state.
+            Log.d("## MovementDetector", "Moving: not sure");
             return false;
         } else {
             skipped = 0;
@@ -48,9 +51,8 @@ public class MovementDetector extends AbstractMovementDetector {
 
         int timeMovingSec = nowSec - lastStillTimeSec;
 
-        //Log.d("###", "Last still time (s) "+lastStillTimeSec);
-        //Log.d("###", "Current time time (s) "+nowSec);
-        //Log.d("###", "Moving since (s) "+timeMovingSec);
+        Log.d("## MovementDetector", "Moving: yes");
+        Log.d("## MovementDetector", "Moving since (s) " + timeMovingSec);
 
         if(timeMovingSec >= period){
             lastVals = null; // reset for next use
