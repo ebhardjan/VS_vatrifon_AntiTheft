@@ -2,8 +2,6 @@ package ch.ethz.inf.vs.a1.vatrifon.antitheft;
 
 import android.util.Log;
 
-import java.util.Calendar;
-
 public class MovementDetector extends AbstractMovementDetector {
 
     private static final String LOG_TAG = "##MovementDetector";
