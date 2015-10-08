@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 public class MovementDetector extends AbstractMovementDetector {
 
+    private static final String LOG_TAG = "##MovementDetector";
     private int skipped;
     private float[] lastVals;       // last sensor values
     private int lastStillTimeSec;   // last time the phone was not moving
@@ -38,12 +39,12 @@ public class MovementDetector extends AbstractMovementDetector {
             if(skipped >= Settings.COOLDOWN_SKIP_SENSOR_READINGS){
                 // NOW assume phone is lying still
                 lastStillTimeSec = nowSec;
-                Log.d("## MovementDetector", "Moving: no");
+                Log.d(LOG_TAG, "Moving: no");
                 return false;
             }
 
             // either way, do not trigger an alarm in this state.
-            Log.d("## MovementDetector", "Moving: not sure");
+            Log.d(LOG_TAG, "Moving: not sure");
             return false;
         } else {
             skipped = 0;
@@ -51,8 +52,8 @@ public class MovementDetector extends AbstractMovementDetector {
 
         int timeMovingSec = nowSec - lastStillTimeSec;
 
-        Log.d("## MovementDetector", "Moving: yes");
-        Log.d("## MovementDetector", "Moving since (s) " + timeMovingSec);
+        Log.d(LOG_TAG, "Moving: yes");
+        Log.d(LOG_TAG, "Moving since (s) " + timeMovingSec);
 
         if(timeMovingSec >= period){
             lastVals = null; // reset for next use

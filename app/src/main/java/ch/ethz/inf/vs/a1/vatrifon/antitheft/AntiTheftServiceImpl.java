@@ -104,7 +104,7 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     @Override
     public IBinder onBind(Intent intent) {
         // not used since we should use a started service...
-        throw new UnsupportedOperationException("Not yet implemented");
+        throw new UnsupportedOperationException("Unsupported operation");
     }
 
     @Override
@@ -147,17 +147,14 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         // if the alarm gets disabled in the mean time, we don't play
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
-
+            @Override
             public void run() {
-                if (!Settings.stopAlarm) {
+                if (Settings.inAlarmMode) {
                     if (!mp.isPlaying())
                         mp.start();
-                        Settings.inAlarmMode = false;
-                        notificationManager.cancel(Settings.ALARM_NOTIFICATION_ID);
+                    Settings.inAlarmMode = false;
+                    notificationManager.cancel(Settings.ALARM_NOTIFICATION_ID);
                 }
-                else
-                    Settings.stopAlarm = false;
-
             }
         }, Settings.TIMEOUT * 1000);
     }

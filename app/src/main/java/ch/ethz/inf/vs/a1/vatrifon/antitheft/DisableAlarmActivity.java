@@ -25,10 +25,7 @@ public class DisableAlarmActivity extends AppCompatActivity {
         });
 
         // stop the alarm from going off...
-        Settings.stopAlarm = true;
         Settings.inAlarmMode = false;
-        
-        // todo: stop all "currently active" detections -> reset timer...
 
         // remove the notification
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);

@@ -25,7 +25,7 @@ public abstract class AbstractMovementDetector implements SensorEventListener {
 		boolean isAlarm = !Settings.inAlarmMode && doAlarmLogic(values);
 
 		if (isAlarm) {
-			((AbstractAntiTheftService)antiTheftService).startAlarm();
+			antiTheftService.startAlarm();
 		}
 	}
 	
