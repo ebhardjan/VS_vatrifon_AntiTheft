@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -136,6 +138,9 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         // don't let the notification go away
         mBuilder.setOngoing(true);
         mBuilder.setContentIntent(resultPendingIntent);
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        // set a sound, so that we hear the notification
+        mBuilder.setSound(alarmSound);
         notificationManager.notify(Settings.ALARM_NOTIFICATION_ID, mBuilder.build());
 
         // creates a runnable that waits for the wanted time before playing the sound.
