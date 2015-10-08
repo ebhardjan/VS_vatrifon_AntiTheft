@@ -2,7 +2,7 @@ package ch.ethz.inf.vs.a1.vatrifon.antitheft;
 
 public class Settings {
 
-	// todo: we don't use this! Should we use this?
+	// we don't use this! Should we use this?
 	public static final String SETTINGS_FILENAME = "AntiTheftSettings";
 
 	public static final boolean ACTIVATE_DEFAULT = false;
