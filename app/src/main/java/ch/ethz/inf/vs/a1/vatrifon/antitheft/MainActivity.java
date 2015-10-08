@@ -33,12 +33,28 @@ public class MainActivity extends AppCompatActivity{
                     // getInt() doesn't work since text-field is stored as string...
                     String timeoutString = prefs.getString(key, ""+Settings.TIMEOUT_DEFAULT);
                     int timeout = Integer.parseInt(timeoutString);
+                    // if the user entered weird stuff that is out of our boundaries we change the values here
+                    // note: the user will not see those values in the settings, but we will work with those in
+                    // our algorithm.
+                    if(timeout > Settings.TIMEOUT_UPPER_BOUND)
+                        timeout = Settings.TIMEOUT_UPPER_BOUND;
+                    else if(timeout < Settings.TIMEOUT_LOWER_BOUND)
+                        timeout = Settings.TIMEOUT_LOWER_BOUND;
+                    // set the actual value in Settings.java where we access it in other classes...
                     Settings.TIMEOUT = timeout;
                     Log.d("###", "[activity] New timeout value: "+ timeout);
                     break;
                 case Settings.SENSITIVITY_STR:
                     String sensitivityString  = prefs.getString(key, ""+Settings.SENSITIVITY_DEFAULT);
                     int sensitivity = Integer.parseInt(sensitivityString);
+                    // if the user entered weird stuff that is out of our boundaries we change the values here
+                    // note: the user will not see those values in the settings, but we will work with those in
+                    // our algorithm.
+                    if( sensitivity > Settings.SENSITIVITY_UPPER_BOUND)
+                        sensitivity = Settings.SENSITIVITY_UPPER_BOUND;
+                    else if( sensitivity < Settings.SENSITIVITY_LOWER_BOUND)
+                        sensitivity = Settings.SENSITIVITY_LOWER_BOUND;
+                    // set the actual value in Settings.java where we access it in other classes...
                     Settings.SENSITIVITY = sensitivity;
                     Log.d("###", "[activity] New sensitivity value: "+ sensitivity);
                     break;

@@ -8,7 +8,7 @@
     <EditTextPreference
         android:key="timeout"
         android:title="Time Interval"
-        android:summary="Time interval in which you can turn off the alarm in seconds"
+        android:summary="Time interval in which you can turn off the alarm in seconds. Value between 0 and 60."
         android:defaultValue="5"
         android:inputType="number"
         android:singleLine="true"
@@ -16,7 +16,7 @@
     <EditTextPreference
         android:key="sensitivity"
         android:title="Sensitivity"
-        android:summary="Sensitivity of the movement detection. Smaller is more sensitive"
+        android:summary="Sensitivity of the movement detection. Smaller is more sensitive. Value between 20 and 200."
         android:defaultValue="100"
         android:inputType="number"
         android:singleLine="true"

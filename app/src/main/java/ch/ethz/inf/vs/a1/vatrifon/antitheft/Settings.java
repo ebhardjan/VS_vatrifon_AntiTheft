@@ -10,6 +10,11 @@ public class Settings {
 	public static final int TIMEOUT_DEFAULT = 0;
 	public static final int COOLDOWN_SKIP_SENSOR_READINGS = 6;
 
+    public static final int TIMEOUT_UPPER_BOUND = 60;
+    public static final int TIMEOUT_LOWER_BOUND = 0;
+    public static final int SENSITIVITY_UPPER_BOUND = 200;
+    public static final int SENSITIVITY_LOWER_BOUND = 20;
+
 	public static int SENSITIVITY = 30;
 	// period of time after the triggering of the alarm, after which the alarm sound plays
 	public static int TIMEOUT = 5;

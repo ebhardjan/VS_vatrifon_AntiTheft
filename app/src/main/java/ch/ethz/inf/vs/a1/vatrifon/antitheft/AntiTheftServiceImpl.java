@@ -40,9 +40,6 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
                         stopSelf();
                     }
                     break;
-                case Settings.SENSITIVITY_STR:
-                    String asdf = prefs.getString(key, Settings.SENSITIVITY_STR);
-                    Log.d("###", "[service] new sensitivity: "+asdf);
                 default:
                     Log.d("###", "[service] onSharedPreferenceChanged");
             }
@@ -60,8 +57,20 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         // just in case in hasn't been set yet because Settings.java doesn't store stuff persistent...
-        String temp = prefs.getString(Settings.TIMEOUT_STR, Settings.TIMEOUT_DEFAULT+"");
-        Settings.TIMEOUT = Integer.parseInt(temp);
+        String timeoutStr = prefs.getString(Settings.TIMEOUT_STR, Settings.TIMEOUT_DEFAULT+"");
+        int timeout = Integer.parseInt(timeoutStr);
+        if(timeout > Settings.TIMEOUT_UPPER_BOUND)
+            timeout = Settings.TIMEOUT_UPPER_BOUND;
+        else if(timeout < Settings.TIMEOUT_LOWER_BOUND)
+            timeout = Settings.TIMEOUT_LOWER_BOUND;
+        Settings.TIMEOUT = timeout;
+        String sensitivityStr = prefs.getString(Settings.SENSITIVITY_STR, Settings.SENSITIVITY_DEFAULT+"");
+        int sensitivity = Integer.parseInt(sensitivityStr);
+        if(sensitivity > Settings.SENSITIVITY_UPPER_BOUND)
+            sensitivity = Settings.SENSITIVITY_UPPER_BOUND;
+        else if(sensitivity < Settings.SENSITIVITY_LOWER_BOUND)
+            sensitivity = Settings.SENSITIVITY_LOWER_BOUND;
+        Settings.SENSITIVITY = sensitivity;
 
         // add the onchange listener
         prefListener = new PreferenceChangeListener();
