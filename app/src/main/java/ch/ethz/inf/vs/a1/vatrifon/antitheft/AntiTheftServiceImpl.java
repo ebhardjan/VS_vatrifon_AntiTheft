@@ -20,7 +20,6 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     private SensorManager sm;
 
     private MediaPlayer mp;
-    private boolean inAlarmMode = false;
 
     private class PreferenceChangeListener implements
             SharedPreferences.OnSharedPreferenceChangeListener {
@@ -109,10 +108,10 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
     @Override
     public void startAlarm() {
         // in case we're already displaying the alarm notification we stop
-        if(inAlarmMode)
+        if(Settings.inAlarmMode)
             return;
         else
-            inAlarmMode = true;
+            Settings.inAlarmMode = true;
 
         Log.d("###", "startAlarm");
 
@@ -148,6 +147,8 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
                 if (!Settings.stopAlarm) {
                     if (!mp.isPlaying())
                         mp.start();
+                        Settings.inAlarmMode = false;
+                        notificationManager.cancel(Settings.ALARM_NOTIFICATION_ID);
                 }
                 else
                     Settings.stopAlarm = false;

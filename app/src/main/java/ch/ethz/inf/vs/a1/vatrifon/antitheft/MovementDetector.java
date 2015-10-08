@@ -1,11 +1,6 @@
 package ch.ethz.inf.vs.a1.vatrifon.antitheft;
 
-import android.os.Debug;
-import android.text.format.Time;
-import android.util.Log;
-
 import java.util.Calendar;
-import java.util.Date;
 
 public class MovementDetector extends AbstractMovementDetector {
 
@@ -23,7 +18,7 @@ public class MovementDetector extends AbstractMovementDetector {
         }
 
         float sensitivity = Settings.SENSITIVITY / 100f;
-        int timeout = Settings.TIMEOUT;
+        int period = Settings.PERIOD;
 
         float diff = normDiff(lastVals, values);
         lastVals = values.clone();
@@ -57,7 +52,7 @@ public class MovementDetector extends AbstractMovementDetector {
         //Log.d("###", "Current time time (s) "+nowSec);
         //Log.d("###", "Moving since (s) "+timeMovingSec);
 
-        if(timeMovingSec >= timeout){
+        if(timeMovingSec >= period){
             lastVals = null; // reset for next use
             return true;
         }

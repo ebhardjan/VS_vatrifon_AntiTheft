@@ -12,9 +12,11 @@ public class Settings {
 
 	public static int SENSITIVITY = 30;
 	public static int TIMEOUT = 5;
+	public static int PERIOD = 5;
 
 	// todo: is this the right thing todo?
 	public static boolean stopAlarm = false;
+    public static boolean inAlarmMode = false;
 
 	public static final String ACTIVATE_STR = "activate";
 	public static final String SENSITIVITY_STR = "sensitivity";

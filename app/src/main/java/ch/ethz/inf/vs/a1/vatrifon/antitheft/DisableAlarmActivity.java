@@ -26,6 +26,7 @@ public class DisableAlarmActivity extends AppCompatActivity {
 
         // stop the alarm from going off...
         Settings.stopAlarm = true;
+        Settings.inAlarmMode = false;
 
         // remove the notification
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
