@@ -149,6 +149,7 @@ public class AntiTheftServiceImpl extends AbstractAntiTheftService {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Log.d("###", "Play actual alarm sound");
                 if (Settings.inAlarmMode) {
                     if (!mp.isPlaying())
                         mp.start();

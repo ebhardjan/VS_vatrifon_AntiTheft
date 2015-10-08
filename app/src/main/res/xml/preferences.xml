@@ -16,8 +16,8 @@
     <EditTextPreference
         android:key="sensitivity"
         android:title="Sensitivity"
-        android:summary="Sensitivity of the movement detection"
-        android:defaultValue="20"
+        android:summary="Sensitivity of the movement detection. Smaller is more sensitive"
+        android:defaultValue="100"
         android:inputType="number"
         android:singleLine="true"
         android:numeric="decimal"/>

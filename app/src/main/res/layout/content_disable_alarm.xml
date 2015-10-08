@@ -20,4 +20,23 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/back_to_app"
+        android:id="@+id/btn_back_to_app"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:onClick="onSettingsClick" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/close"
+        android:id="@+id/btn_close"
+        android:onClick="onCloseClick"
+        android:layout_below="@+id/btn_back_to_app"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

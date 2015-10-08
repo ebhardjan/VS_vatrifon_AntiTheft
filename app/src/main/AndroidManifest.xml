@@ -26,6 +26,7 @@
         <activity
             android:name=".DisableAlarmActivity"
             android:label="@string/title_activity_disable_alarm"
+            android:parentActivityName="ch.ethz.inf.vs.a1.vatrifon.antitheft.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>

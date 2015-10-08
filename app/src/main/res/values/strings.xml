@@ -10,4 +10,6 @@
     <string name="title_activity_disable_alarm">DisableAlarmActivity</string>
 
     <string name="alarm_disabled">The alarm has been disabled.</string>
+    <string name="back_to_app">Open settings</string>
+    <string name="close">Close</string>
 </resources>

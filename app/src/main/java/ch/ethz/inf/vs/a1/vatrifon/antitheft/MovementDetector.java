@@ -78,7 +78,6 @@ public class MovementDetector extends AbstractMovementDetector {
      * returns the seconds passed since some 'arbitrary, but fixed' time :)
      */
     private int getTimeSeconds(){
-        Calendar cal = Calendar.getInstance(); // yes, we need a new instance every time.
-        return cal.get(Calendar.SECOND);
+        return (int)(System.currentTimeMillis() / 1000L);
     }
 }
